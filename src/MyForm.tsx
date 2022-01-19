@@ -1,8 +1,10 @@
 import React from 'react';
 import './MyForm.css';
-import { InputAdornment, FormControl, FormHelperText, Paper, Input, InputLabel, IconButton, Typography, Box } from '@mui/material';
+import { InputAdornment, FormControl, FormHelperText, Paper, Input, InputLabel, IconButton, Button, Stack } from '@mui/material';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import SendIcon from '@mui/icons-material/Send';
+import { ButtonAppBar } from "./ButtonAppBar";
 
 
 class MyForm extends React.Component<{}, { text: string }> {
@@ -39,14 +41,11 @@ class MyForm extends React.Component<{}, { text: string }> {
 
     render() {
         return (
-            <Box>
-
-                <Typography variant="h5">
-                    Chrome Extension built with React!
-                </Typography>
+            <Stack spacing={2}>
+                <ButtonAppBar />
                 <Paper
                     component="form"
-                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'left', margin: "0px 25px" }}
+                    sx={{ padding: '2px 4px', display: 'flex', alignItems: 'left', margin: "20px 5px 200px" }}
                 >
 
                     <FormControl variant="standard" sx={{ ml: 1, flex: 1 }} aria-label='paste text here'>
@@ -68,25 +67,12 @@ class MyForm extends React.Component<{}, { text: string }> {
                     <IconButton color="primary" sx={{ p: '10px' }} aria-label="paste" onClick={this.pasteText}>
                         <ContentPasteIcon />
                     </IconButton>
-                </Paper>
-            </Box>
+                </Paper>                <Button variant="contained" color="success" endIcon={<SendIcon />}
+                    sx={{ padding: '2px 4px', display: 'flex', alignItems: 'center' }}>
+                    Submit
+                </Button>
+            </Stack>
         );
-        // return (
-        //     <Box>
-
-        //                 <TextField
-        //                     fullWidth
-        //                     id="name"
-        //                     label="Name"
-
-        //                     variant="filled"
-        //                     value={this.state.text} onChange={this.handleChange}
-        //                 />
-        //                 <IconButton size="large" onClick={this.pasteText}>
-        //                     <ContentPasteIcon />
-        //                 </IconButton>
-        //     </Box>
-        // );
     }
 }
 
