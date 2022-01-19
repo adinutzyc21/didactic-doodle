@@ -36,7 +36,7 @@ function App() {
         <div className="App">
             <h1>Chrome Extension built with React!</h1>
 
-            <ul className="MyForm">
+            <ul className="ValidationForm">
                 <li className="validation">
                     <div className="validationField">
                         <span className="validationFieldTitle">Title</span>

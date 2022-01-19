@@ -13,7 +13,6 @@ class MyForm extends React.Component<{}, { text: string }> {
     }
 
     pasteText() {
-        console.log("Clicked on paste text");
         chrome.tabs && chrome.tabs.query({
             active: true,
             currentWindow: true
@@ -22,7 +21,6 @@ class MyForm extends React.Component<{}, { text: string }> {
                 tabs[0].id || 0,
                 { method: "getSelection" },
                 (response: any) => {
-                    console.log("Adina", response);
                     this.setState({ text: response.text });
                 });
         });

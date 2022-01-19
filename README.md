@@ -4,7 +4,7 @@
 1. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ```sh
-npx create-react-app chrome-react-seo-extension --template typescript
+npx create-react-app chrome-react-extension --template typescript
 ```
 
 2. Edit the manifest file in `public/manifest.json`.
@@ -41,6 +41,9 @@ Important fields:
 1. Get the current tab
 2. Send a message that can automatically be picked by the content scripts running on that site
     - When we send a message, we provide the message object, and, within that message object, we're setting a property named `type`. That property could be used to separate different messages that would execute different codes and responses on the other side. Think of it as dispatching and reducing when working with states.
+
+### Get Extension to open in side panel
+[As per this StackOverflow answer](https://stackoverflow.com/a/70025301/1646896)
 
 <hr/>
 

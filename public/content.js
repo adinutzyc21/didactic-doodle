@@ -1,27 +1,52 @@
 function messagesFromReactAppListener(msg, sender, sendResponse) {
-    console.log('[content.js]. Message received', msg);
-
-    let response = {};
-
     switch (msg.method) {
         case "getSelection":
-            response = { text: window.getSelection().toString() };
+            sendResponse({ text: window.getSelection().toString() });
             break;
         case "countHeadings":
-            response = {
+            sendResponse({
                 title: document.title,
                 headlines: Array.from(document.getElementsByTagName < "h1" > ("h1")).map(h1 => h1.innerText)
-            };
+            });
             break;
-
+        case "toggleExtension":
+            toggle();
+            break;
     }
-
-    console.log('[content.js]. Message response', response);
-
-    sendResponse(response);
 }
 
 /**
  * Fired when a message is sent from either an extension process or a content script.
  */
 chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
+
+/**
+ * Create side panel
+ */
+{ // Block used to avoid setting global variables
+    const iframe = document.createElement('iframe');
+
+    iframe.style.background = "green";
+    iframe.style.height = "85%";
+    iframe.style.width = "500px";
+    iframe.style.position = "fixed";
+    iframe.style.top = "0px";
+    iframe.style.right = "10px";
+    iframe.style.zIndex = "9000000000000000000";
+    iframe.style.border = "1px";
+    iframe.style.display = "none";
+
+    iframe.setAttribute("id", "chromeExtension");
+
+    iframe.src = chrome.runtime.getURL("index.html")
+    document.body.appendChild(iframe);
+}
+
+function toggle() {
+    let x = document.getElementById("chromeExtension");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
