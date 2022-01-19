@@ -1,5 +1,9 @@
 import React from 'react';
 import './MyForm.css';
+import { InputAdornment, FormControl, FormHelperText, Paper, Input, InputLabel, IconButton, Typography, Box } from '@mui/material';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+
 
 class MyForm extends React.Component<{}, { text: string }> {
     constructor(props: any) {
@@ -35,15 +39,54 @@ class MyForm extends React.Component<{}, { text: string }> {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Name:
-                    <input type="text" value={this.state.text} onChange={this.handleChange} />
-                </label>
-                <input type="button" onClick={this.pasteText} value="Paste Selection" />
-                <input type="submit" value="Submit" />
-            </form>
+            <Box>
+
+                <Typography variant="h5">
+                    Chrome Extension built with React!
+                </Typography>
+                <Paper
+                    component="form"
+                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'left', margin: "0px 25px" }}
+                >
+
+                    <FormControl variant="standard" sx={{ ml: 1, flex: 1 }} aria-label='paste text here'>
+                        <InputLabel htmlFor="component-helper">Name</InputLabel>
+                        <Input
+                            id="component-helper"
+                            value={this.state.text} onChange={this.handleChange}
+                            aria-describedby="component-helper-text"
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            }
+                        />
+                        <FormHelperText id="component-helper-text">
+                            Some important helper text
+                        </FormHelperText>
+                    </FormControl>
+                    <IconButton color="primary" sx={{ p: '10px' }} aria-label="paste" onClick={this.pasteText}>
+                        <ContentPasteIcon />
+                    </IconButton>
+                </Paper>
+            </Box>
         );
+        // return (
+        //     <Box>
+
+        //                 <TextField
+        //                     fullWidth
+        //                     id="name"
+        //                     label="Name"
+
+        //                     variant="filled"
+        //                     value={this.state.text} onChange={this.handleChange}
+        //                 />
+        //                 <IconButton size="large" onClick={this.pasteText}>
+        //                     <ContentPasteIcon />
+        //                 </IconButton>
+        //     </Box>
+        // );
     }
 }
 
