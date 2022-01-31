@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "set INLINE_RUNTIME_CHUNK=false&&set GENERATE_SOURCEMAP=false&&react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

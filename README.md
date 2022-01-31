@@ -13,7 +13,7 @@ Important fields:
 - *manifest_version*: should be  **3** which is [the latest version](https://developer.chrome.com/docs/extensions/mv3/getstarted/)
 - *action*: we want our button to start a pop-up with the contents of our index.html, which hosts our application
 
-3. Change the `build` command in `package.json` to be `"build": "INLINE_RUNTIME_CHUNK=false react-scripts build"`, so that running `npm run build` would not interleave javascript and html in the generate `index.html` file but create separate files for that. Otherwise we would get `Content Security Policy ` errors.
+3. Change the `build` command in `package.json` to be `"build": "set INLINE_RUNTIME_CHUNK=false react-scripts build"`, so that running `npm run build` would not interleave javascript and html in the generate `index.html` file but create separate files for that. Otherwise we would get `Content Security Policy ` errors.
 
 4. Load extension into Chrome by going to `chrome://extensions/`, turning developer mode on, and clicking `Load unpacked`. Select the `build` folder. The extension will now be available in the extension toolbar.
 

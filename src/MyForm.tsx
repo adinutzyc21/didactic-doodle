@@ -1,24 +1,21 @@
 import React from 'react';
 import './MyForm.css';
-import { InputAdornment, FormControl, FormHelperText, Paper, Input, InputLabel, IconButton, Button, Stack } from '@mui/material';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Button, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { ButtonAppBar } from "./ButtonAppBar";
+import MyFormInput from "./MyFormInput";
+import { IconTypes } from './types';
 
 
-class MyForm extends React.Component<{}, { text: string }> {
+class MyForm extends React.Component<{}, { firstName: string, lastName: string }> {
     constructor(props: any) {
         super(props);
 
-        this.state = { text: "" };
-
-        this.pasteText = this.pasteText.bind(this);
+        this.state = { firstName: "", lastName: "" };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    pasteText() {
+    pasteText(stateOpt: string) {
         chrome.tabs && chrome.tabs.query({
             active: true,
             currentWindow: true
@@ -27,47 +24,46 @@ class MyForm extends React.Component<{}, { text: string }> {
                 tabs[0].id || 0,
                 { method: "getSelection" },
                 (response: any) => {
-                    this.setState({ text: response.text });
+                    switch (stateOpt) {
+                        case "firstName":
+                            this.setState({ firstName: response.text });
+                            break;
+                        case "lastName":
+                            this.setState({ lastName: response.text });
+                            break;
+                    }
                 });
         });
     }
     handleSubmit(event: any) {
-        console.log('A name was submitted:', this.state.text);
+        console.log('A new state was submitted:', this.state);
         event.preventDefault();
     }
-    handleChange(event: any) {
-        this.setState({ text: event.target.value });
+    handleChange(event: any, stateOpt: string) {
+        switch (stateOpt) {
+            case "firstName":
+                this.setState({ firstName: event.target.value });
+                break;
+            case "lastName":
+                this.setState({ lastName: event.target.value });
+                break;
+        }
     }
 
     render() {
         return (
             <Stack spacing={2}>
                 <ButtonAppBar />
-                <Paper
-                    component="form"
-                    sx={{ padding: '2px 4px', display: 'flex', alignItems: 'left', margin: "20px 5px 200px" }}
-                >
+                <MyFormInput label="First Name" icon={IconTypes.firstName} helperText="Paste First Name Here"
+                    stateOpt="firstName" onClick={this.pasteText.bind(this)} value={this.state.firstName}
+                    onChange={this.handleChange.bind(this)}
+                />
+                <MyFormInput label="Last Name" icon={IconTypes.lastName} helperText="Paste Last Name Here"
+                    stateOpt="lastName" onClick={this.pasteText.bind(this)} value={this.state.lastName}
+                    onChange={this.handleChange.bind(this)}
+                />
 
-                    <FormControl variant="standard" sx={{ ml: 1, flex: 1 }} aria-label='paste text here'>
-                        <InputLabel htmlFor="component-helper">Name</InputLabel>
-                        <Input
-                            id="component-helper"
-                            value={this.state.text} onChange={this.handleChange}
-                            aria-describedby="component-helper-text"
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <AccountCircle />
-                                </InputAdornment>
-                            }
-                        />
-                        <FormHelperText id="component-helper-text">
-                            Some important helper text
-                        </FormHelperText>
-                    </FormControl>
-                    <IconButton color="primary" sx={{ p: '10px' }} aria-label="paste" onClick={this.pasteText}>
-                        <ContentPasteIcon />
-                    </IconButton>
-                </Paper>                <Button variant="contained" color="success" endIcon={<SendIcon />}
+                <Button variant="contained" color="success" endIcon={<SendIcon />} onClick={this.handleSubmit}
                     sx={{ padding: '2px 4px', display: 'flex', alignItems: 'center' }}>
                     Submit
                 </Button>
