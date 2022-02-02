@@ -1,6 +1,6 @@
 import React from 'react';
 import './MyForm.css';
-import { IconTypes } from './types';
+import { IconTypes } from '../types';
 import { FormControl, FormHelperText, Paper, Input, InputLabel, IconButton, InputAdornment } from '@mui/material';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';

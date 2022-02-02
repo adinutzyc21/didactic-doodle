@@ -4,7 +4,7 @@ import { Button, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { ButtonAppBar } from "./ButtonAppBar";
 import MyFormInput from "./MyFormInput";
-import { IconTypes } from './types';
+import { IconTypes } from '../types';
 
 
 class MyForm extends React.Component<{}, { firstName: string, lastName: string }> {

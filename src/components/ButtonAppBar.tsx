@@ -1,5 +1,5 @@
 import { Typography, Toolbar, AppBar, Avatar, Box } from "@mui/material";
-import logo from "./logo.png";
+import logo from "../img/logo.png";
 
 export function ButtonAppBar() {
     return (

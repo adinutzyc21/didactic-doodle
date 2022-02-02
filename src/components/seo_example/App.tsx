@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { DOMMessageResponse } from './types';
+import { DOMMessageResponse } from '../../types';
 
 function App() {
     const [title, setTitle] = React.useState('');
