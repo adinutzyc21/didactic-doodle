@@ -3,12 +3,6 @@ function messagesFromReactAppListener(msg, sender, sendResponse) {
         case "getSelection":
             sendResponse({ text: window.getSelection().toString() });
             break;
-        case "countHeadings":
-            sendResponse({
-                title: document.title,
-                headlines: Array.from(document.getElementsByTagName < "h1" > ("h1")).map(h1 => h1.innerText)
-            });
-            break;
         case "toggleExtension":
             const extensionIframe = document.getElementById("chromeExtension");
             if (extensionIframe.style.display === "none") {
