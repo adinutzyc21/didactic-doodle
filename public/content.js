@@ -10,9 +10,15 @@ function messagesFromReactAppListener(msg, sender, sendResponse) {
             });
             break;
         case "toggleExtension":
-            toggle();
+            const extensionIframe = document.getElementById("chromeExtension");
+            if (extensionIframe.style.display === "none") {
+                extensionIframe.style.display = "block";
+            } else {
+                extensionIframe.style.display = "none";
+            }
             break;
     }
+    return true;
 }
 
 /**
@@ -41,13 +47,4 @@ chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
 
     iframe.src = chrome.runtime.getURL("index.html")
     document.body.appendChild(iframe);
-}
-
-function toggle() {
-    let x = document.getElementById("chromeExtension");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
 }
