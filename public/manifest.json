@@ -20,7 +20,8 @@
       "extension_ids": ["hppfkcgmfaachkedbhnonfbceicemgop"]
     }
   ],
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
   "icons": {
     "16": "logo16.png",
     "32": "logo32.png",

@@ -6,7 +6,7 @@ export function ButtonAppBar() {
         <Box sx={{ flexGrow: 1, margin_bottom: 200 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Avatar variant="square" alt="Chrome Extension built with React" src={logo} sx={{
+                    <Avatar variant="square" alt="Recruiter-Reply Extension for Gmail" src={logo} sx={{
                         width: 30,
                         height: "auto",
                         marginRight: '10px'
@@ -15,7 +15,7 @@ export function ButtonAppBar() {
                         flexGrow: 1,
                         textAlign: "center"
                     }}>
-                        Chrome Extension built with React!
+                        Recruiter-Reply Extension for Gmail
                     </Typography>
 
                 </Toolbar>

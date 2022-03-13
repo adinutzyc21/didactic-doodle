@@ -1,4 +1,4 @@
-function messagesFromReactAppListener(msg, sender, sendResponse) {
+async function messagesFromReactAppListener(msg, sender, sendResponse) {
     switch (msg.method) {
         case "getSelection":
             sendResponse({ text: window.getSelection().toString() });
@@ -11,8 +11,27 @@ function messagesFromReactAppListener(msg, sender, sendResponse) {
                 extensionIframe.style.display = "none";
             }
             break;
+        case "replyToEmail":
+            const replyBtn = document.querySelector('span.ams.bkH');
+            if (replyBtn) {
+                replyBtn.click();
+
+                window.setTimeout(function () {
+                    writeEmailResponse(msg.emailToSend);
+                }, 0);
+            }
+            break;
     }
     return true;
+}
+
+function writeEmailResponse(message) {
+    const msgBodyDiv = document.querySelector('div.Am.aO9.Al.editable');
+    if (msgBodyDiv) {
+        const el = document.createElement('span'); // is a node
+        el.innerHTML = message;
+        msgBodyDiv.prepend(el);
+    }
 }
 
 /**
@@ -27,7 +46,7 @@ chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
     const iframe = document.createElement('iframe');
 
     iframe.style.background = "#FAF9F6";
-    iframe.style.height = "85%";
+    iframe.style.height = "80%";
     iframe.style.width = "500px";
     iframe.style.position = "fixed";
     iframe.style.top = "0px";
