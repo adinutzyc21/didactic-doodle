@@ -11,9 +11,9 @@ class MyFormInput extends React.Component<{
     value: string,
     icon: IconTypes,
     helperText: string,
-    stateOpt: string,
-    onClick: (stateOpt: string) => void,
-    onChange: (event: any, stateOpt: string) => void,
+    stateName: string,
+    onClick: (stateName: string) => void,
+    onChange: (event: any, stateName: string) => void,
 }, {}> {
     constructor(props: any) {
         super(props);
@@ -29,7 +29,7 @@ class MyFormInput extends React.Component<{
                     <InputLabel htmlFor="component-helper">{this.props.label}</InputLabel>
                     <Input
                         id="component-helper" value={this.props.value}
-                        onChange={(event) => this.props.onChange(event, this.props.stateOpt)}
+                        onChange={(event) => this.props.onChange(event, this.props.stateName)}
                         aria-describedby="component-helper-text"
                         startAdornment={
                             <InputAdornment position="start">
@@ -41,7 +41,7 @@ class MyFormInput extends React.Component<{
                         {this.props.helperText}
                     </FormHelperText>
                 </FormControl>
-                <IconButton color="primary" sx={{ p: '10px' }} aria-label="paste" onClick={() => this.props.onClick(this.props.stateOpt)}
+                <IconButton color="primary" sx={{ p: '10px' }} aria-label="paste" onClick={() => this.props.onClick(this.props.stateName)}
                 >
                     <ContentPasteIcon />
                 </IconButton>

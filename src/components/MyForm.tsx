@@ -5,7 +5,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { ButtonAppBar } from "./ButtonAppBar";
 import MyFormInput from "./MyFormInput";
 import { IconTypes } from '../types';
-
+import { STATE_NAME } from '../utils/constants';
+import { pasteText } from "../utils/browserInteractionModule";
 
 class MyForm extends React.Component<{}, { firstName: string, lastName: string }> {
     constructor(props: any) {
@@ -15,32 +16,25 @@ class MyForm extends React.Component<{}, { firstName: string, lastName: string }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    pasteText(stateOpt: string) {
-        chrome.tabs && chrome.tabs.query({
-            active: true,
-            currentWindow: true
-        }, tabs => {
-            chrome.tabs.sendMessage(
-                tabs[0].id || 0,
-                { method: "getSelection" },
-                (response: any) => {
-                    switch (stateOpt) {
-                        case "firstName":
-                            this.setState({ firstName: response.text });
-                            break;
-                        case "lastName":
-                            this.setState({ lastName: response.text });
-                            break;
-                    }
-                });
-        });
+    async pasteText(stateName: string) {
+        const response = await pasteText();
+        switch (stateName) {
+            case STATE_NAME.firstName:
+                this.setState({ firstName: response.text });
+                break;
+            case STATE_NAME.lastName:
+                this.setState({ lastName: response.text });
+                break;
+        }
     }
+
     handleSubmit(event: any) {
         console.log('A new state was submitted:', this.state);
         event.preventDefault();
     }
-    handleChange(event: any, stateOpt: string) {
-        switch (stateOpt) {
+
+    handleChange(event: any, stateName: string) {
+        switch (stateName) {
             case "firstName":
                 this.setState({ firstName: event.target.value });
                 break;
@@ -55,11 +49,11 @@ class MyForm extends React.Component<{}, { firstName: string, lastName: string }
             <Stack spacing={2}>
                 <ButtonAppBar />
                 <MyFormInput label="First Name" icon={IconTypes.firstName} helperText="Paste First Name Here"
-                    stateOpt="firstName" onClick={this.pasteText.bind(this)} value={this.state.firstName}
+                    stateName={STATE_NAME.firstName} onClick={this.pasteText.bind(this)} value={this.state.firstName}
                     onChange={this.handleChange.bind(this)}
                 />
                 <MyFormInput label="Last Name" icon={IconTypes.lastName} helperText="Paste Last Name Here"
-                    stateOpt="lastName" onClick={this.pasteText.bind(this)} value={this.state.lastName}
+                    stateName={STATE_NAME.lastName} onClick={this.pasteText.bind(this)} value={this.state.lastName}
                     onChange={this.handleChange.bind(this)}
                 />
 
