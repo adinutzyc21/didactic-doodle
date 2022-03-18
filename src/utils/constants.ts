@@ -7,7 +7,19 @@ export const STATE_NAME = {
 
 export const REACT_MSG_METHODS = {
     getSelection: "getSelection",
+    replyToEmail: "replyToEmail",
 };
+
+export const MODAL_STATES = {
+    success: "success",
+    failure: "failure",
+    none: "none"
+}
+
+export const BUTTON_OPTIONS = {
+    send: "send",
+    cancel: "reset",
+}
 
 export const WHEN_OPTIONS = ["at the beginning of May", "at the end of April", "mid-May"];
 export const CLOSING_MESSAGE = ["have a great day", "have a great evening", "have a great weekend", "have a great week"];

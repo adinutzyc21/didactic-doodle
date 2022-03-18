@@ -1,4 +1,4 @@
-async function messagesFromReactAppListener(msg, sender, sendResponse) {
+function messagesFromReactAppListener(msg, sender, sendResponse) {
     switch (msg.method) {
         case "getSelection": {
             let sel = document.getSelection();
@@ -16,25 +16,43 @@ async function messagesFromReactAppListener(msg, sender, sendResponse) {
             sendResponse(true);
             break;
         }
+        case "replyToEmail": {
+            const replyBtn = document.querySelector("span.ams.bkH");
             if (replyBtn) {
+                replyBtn.addEventListener("click", (e) => {
+                    confirmEmail(msg.emailToSend, sendResponse);
+                });
                 replyBtn.click();
 
-                window.setTimeout(function () {
-                    writeEmailResponse(msg.emailToSend);
-                }, 0);
+            } else {
+                sendResponse(false);
             }
             break;
+        }
     }
     return true;
 }
 
-function writeEmailResponse(message) {
-    const msgBodyDiv = document.querySelector('div.Am.aO9.Al.editable');
-    if (msgBodyDiv) {
-        const el = document.createElement('span'); // is a node
-        el.innerHTML = message;
-        msgBodyDiv.prepend(el);
-    }
+function confirmEmail(message, sendResponse) {
+    setTimeout(() => {
+        const sendBtn = document.querySelector("div.T-I.J-J5-Ji.aoO.v7.T-I-atl.L3");
+
+        if (sendBtn) {
+            const msgBodyDiv = document.querySelector("div.Am.aO9.Al.editable");
+            if (msgBodyDiv) {
+                const el = document.createElement("span"); // is a node
+                el.innerHTML = message;
+                msgBodyDiv.prepend(el);
+                sendBtn.click();
+                sendResponse(true);
+            } else {
+                sendResponse(false);
+            }
+        } else {
+            sendResponse(false);
+        }
+
+    }, 100)
 }
 
 /**
@@ -46,7 +64,7 @@ chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
  * Create side panel
  */
 { // Block used to avoid setting global variables
-    const iframe = document.createElement('iframe');
+    const iframe = document.createElement("iframe");
 
     iframe.style.background = "#FAF9F6";
     iframe.style.height = "80%";
