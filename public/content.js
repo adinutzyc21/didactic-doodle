@@ -1,18 +1,21 @@
 async function messagesFromReactAppListener(msg, sender, sendResponse) {
     switch (msg.method) {
-        case "getSelection":
-            sendResponse({ text: window.getSelection().toString() });
+        case "getSelection": {
+            let sel = document.getSelection();
+            sendResponse({ text: sel.toString() });
+            sel.removeAllRanges();
             break;
-        case "toggleExtension":
+        }
+        case "toggleExtension": {
             const extensionIframe = document.getElementById("chromeExtension");
             if (extensionIframe.style.display === "none") {
                 extensionIframe.style.display = "block";
             } else {
                 extensionIframe.style.display = "none";
             }
+            sendResponse(true);
             break;
-        case "replyToEmail":
-            const replyBtn = document.querySelector('span.ams.bkH');
+        }
             if (replyBtn) {
                 replyBtn.click();
 
