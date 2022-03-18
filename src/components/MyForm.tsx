@@ -120,7 +120,7 @@ class MyForm extends React.Component<{},
                     (resp) => {
                         if (resp) {
                             this.setState({ showModal: MODAL_STATES.none });
-                            // TODO: reset form
+                            this.resetForm();
                         } else {
                             this.setState({ showModal: MODAL_STATES.failure });
                             this.setState({ modalFailMsg: "The email couldn't be generated. Please refresh and try again." })
@@ -133,6 +133,16 @@ class MyForm extends React.Component<{},
             this.setState({ showModal: MODAL_STATES.none });
         }
     }
+
+    resetForm() {
+        this.setState({ recruiterName: "" });
+        this.setState({ companyName: "" });
+        this.setState({ contactMeWhen: WHEN_OPTIONS[0] });
+        this.setState({ closingMessage: CLOSING_MESSAGE[0] });
+        this.setState({ showModal: MODAL_STATES.none });
+        this.setState({ emailMessage: "" });
+        this.setState({ modalFailMsg: "" });
+    };
 
     render() {
         return (
@@ -160,7 +170,7 @@ class MyForm extends React.Component<{},
 
                 <Button variant="contained" color="success" endIcon={<SendIcon />} onClick={this.handleSubmit}
                     sx={{ padding: "2px 4px", display: "flex", alignItems: "center" }}>
-                    Submit
+                    Generate Email
                 </Button>
             </Stack >
         );
