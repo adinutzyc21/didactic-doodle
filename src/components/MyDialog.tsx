@@ -44,7 +44,7 @@ BootstrapDialogTitle.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
-export default function MyDialog(props: { showModalState: string, handleClose: (option: string) => void, successMessage: string }) {
+export default function MyDialog(props: { showModalState: string, handleClose: (option: string) => void, generatedEmailMessage: string, errorMsg: string }) {
     let title = "";
     let body = "";
     let buttons = <span />;
@@ -52,7 +52,7 @@ export default function MyDialog(props: { showModalState: string, handleClose: (
     switch (props.showModalState) {
         case MODAL_STATES.failure:
             title = "Failed to generate message";
-            body = "The email could not be generated. Perhaps you don't have the email you want to reply to open?";
+            body = props.errorMsg;
             buttons = <Button variant="outlined" style={{ width: "100px" }} autoFocus onClick={() => props.handleClose(BUTTON_OPTIONS.cancel)}>Cancel</Button>
             break;
         case MODAL_STATES.success:
@@ -80,7 +80,7 @@ export default function MyDialog(props: { showModalState: string, handleClose: (
                         {body}
                     </Typography>
                     {props.showModalState === MODAL_STATES.success && <div style={{ fontSize: "14px", background: "aliceblue", padding: "10px" }}
-                        dangerouslySetInnerHTML={{ __html: props.successMessage }} />}
+                        dangerouslySetInnerHTML={{ __html: props.generatedEmailMessage }} />}
                 </DialogContent>
                 <DialogActions>
                     {buttons}

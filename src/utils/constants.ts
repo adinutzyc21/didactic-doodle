@@ -8,6 +8,7 @@ export const STATE_NAME = {
 export const REACT_MSG_METHODS = {
     getSelection: "getSelection",
     replyToEmail: "replyToEmail",
+    checkEmailPage: "checkEmailPage",
 };
 
 export const MODAL_STATES = {

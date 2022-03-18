@@ -19,7 +19,8 @@ class MyForm extends React.Component<{},
         contactMeWhen: string,
         closingMessage: string,
         showModal: string,
-        emailMessage: string
+        emailMessage: string,
+        modalFailMsg: string,
     }> {
     constructor(props: any) {
         super(props);
@@ -30,7 +31,8 @@ class MyForm extends React.Component<{},
             contactMeWhen: WHEN_OPTIONS[0],
             closingMessage: CLOSING_MESSAGE[0],
             showModal: MODAL_STATES.none,
-            emailMessage: "string"
+            emailMessage: "",
+            modalFailMsg: "",
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.createEmail = this.createEmail.bind(this);
@@ -63,11 +65,28 @@ class MyForm extends React.Component<{},
 
     handleSubmit(event: any) {
         if (!this.state.recruiterName || !this.state.contactMeWhen || !this.state.closingMessage) {
-            console.error("All fields are required!");
+            this.setState({ modalFailMsg: "Fields marked with * are required! You can paste them directly from the email if you want." })
+            this.setState({ showModal: MODAL_STATES.failure });
             return;
         }
-        this.setState({ emailMessage: this.createEmail() });
-        this.setState({ showModal: MODAL_STATES.success });
+        chrome.tabs && chrome.tabs.query({
+            active: true,
+            currentWindow: true
+        }, tabs => {
+            chrome.tabs.sendMessage(
+                tabs[0].id || 0,
+                { method: REACT_MSG_METHODS.checkEmailPage },
+                (resp) => {
+                    if (resp) {
+                        this.setState({ showModal: MODAL_STATES.success });
+                        this.setState({ emailMessage: this.createEmail() });
+                    } else {
+                        this.setState({ modalFailMsg: "Can't generate email. You don't seem have the email you want to reply to open." })
+                        this.setState({ showModal: MODAL_STATES.failure });
+                    }
+                }
+            );
+        });
 
         event.preventDefault();
     }
@@ -104,6 +123,7 @@ class MyForm extends React.Component<{},
                             // TODO: reset form
                         } else {
                             this.setState({ showModal: MODAL_STATES.failure });
+                            this.setState({ modalFailMsg: "The email couldn't be generated. Please refresh and try again." })
                         }
                     }
                 );
@@ -119,7 +139,7 @@ class MyForm extends React.Component<{},
             <Stack spacing={2}>
                 <ButtonAppBar />
                 <MyDialog showModalState={this.state.showModal} handleClose={this.handleDialogClose.bind(this)}
-                    successMessage={this.state.emailMessage}
+                    generatedEmailMessage={this.state.emailMessage} errorMsg={this.state.modalFailMsg}
                 />
                 <MyFormInput label="Recruiter Name *" icon={IconTypes.recruiterName} helperText="Paste Recruiter Name here"
                     stateName={STATE_NAME.recruiterName} onClick={this.pasteText.bind(this)} value={this.state.recruiterName}

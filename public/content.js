@@ -16,6 +16,15 @@ function messagesFromReactAppListener(msg, sender, sendResponse) {
             sendResponse(true);
             break;
         }
+        case "checkEmailPage": {
+            const replyBtn = document.querySelector("span.ams.bkH");
+            if (replyBtn) {
+                sendResponse(true);
+            } else {
+                sendResponse(false);
+            }
+            break;
+        }
         case "replyToEmail": {
             const replyBtn = document.querySelector("span.ams.bkH");
             if (replyBtn) {
